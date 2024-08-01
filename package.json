@@ -1,0 +1,37 @@
+{
+  "name": "expression-engine",
+  "version": "1.0.0",
+  "description": "表达式引擎",
+  "main": "index.js",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "compile": "antlr4 -Dlanguage=JavaScript -visitor compile/Expr.g4",
+    "start": "node src/index.js",
+    "test": "node test.js",
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjq7/expression-engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xjq7/expression-engine/issues"
+  },
+  "homepage": "https://github.com/xjq7/expression-engine#readme",
+  "dependencies": {
+    "antlr4": "4.13.1-patch-1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/antlr4": "^4.11.6",
+    "rollup": "^4.19.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
