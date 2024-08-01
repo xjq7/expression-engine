@@ -1,48 +1,66 @@
 import ExprParser from '../compile/ExprParser.js';
 import ExprVisitor from '../compile/ExprVisitor.js';
 
+const { ExprContext, FuncCallContext, ParameterContext } = ExprParser;
+
 export default class Visitor extends ExprVisitor {
   constructor() {
     super();
   }
 
-  visitStat(ctx) {
-    const { children = [] } = ctx;
-
-    if (children?.length === 1) {
-      return this.visitExpr(ctx.getChild(0));
-    }
+  /**
+   * 根节点直接当表达式处理
+   *
+   * @param {*} ctx
+   * @return {*}
+   * @memberof Visitor
+   */
+  visitProg(ctx) {
+    return this.visitExpr(ctx.expr());
   }
 
+  /**
+   * 解释 表达式
+   *
+   * @param {*} ctx
+   * @return {*}
+   * @memberof Visitor
+   */
   visitExpr(ctx) {
-    const { children } = ctx;
-
     let context;
-
-    if ((context = ctx.funcCall())) {
+    const childCount = ctx.getChildCount();
+    if (ctx.funcCall && (context = ctx.funcCall())) {
       return this.visitFuncCall(context);
     }
-    if ((context = ctx.ifStat())) {
+    if (ctx.ifStat && (context = ctx.ifStat())) {
       return this.visitIfStat(context);
     }
 
-    if (children.length === 3) {
-      const lrs = this.visitExpr(children[0]);
-      const rrs = this.visitExpr(children[2]);
+    if (childCount === 3) {
+      const lChild = ctx.getChild(0);
+      const mChild = ctx.getChild(1);
+      const rChild = ctx.getChild(2);
 
-      const operator = children[1].getText();
+      if (lChild.getText() === '(' && rChild.getText() === ')') {
+        return this.visitExpr(mChild);
+      }
 
+      const lrs = this.visitExpr(lChild);
+      const rrs = this.visitExpr(rChild);
+
+      const operator = mChild.getText();
+
+      if (operator === '+') {
+        return lrs + rrs;
+      }
+      if (operator === '-') {
+        return lrs - rrs;
+      }
       if (operator === '*') {
         return lrs * rrs;
       }
       if (operator === '/') {
         return lrs / rrs;
-      }
-      if (operator === '+') {
-        return lrs + rrs;
-      }
-      if (operator === '-') {
-        return lrs + rrs;
       }
       if (operator === '>=') {
         return lrs >= rrs;
@@ -56,74 +74,109 @@ export default class Visitor extends ExprVisitor {
       if (operator === '<') {
         return lrs < rrs;
       }
-    } else if (children.length === 1) {
-      return Number(children[0].getText());
-    } else if (children.length === 2) {
-      if (children[0].getText() === '-') {
-        return -children[1].getText();
+      if (operator === '==') {
+        return lrs === rrs;
+      }
+      if (operator === '!=') {
+        return lrs !== rrs;
+      }
+    } else if (childCount === 1) {
+      let context;
+      if ((context = ctx.INT())) {
+        return Number(context.getText());
+      }
+
+      if ((context = ctx.ID())) {
+        return context.getText();
+      }
+    } else if (childCount === 2) {
+      const operator = ctx.getChild(0).getText();
+      const value = this.visitExpr(ctx.getChild(1));
+
+      if (operator === '-') {
+        return -value;
+      }
+      if (operator === '!') {
+        return !value;
       }
     }
 
     return 0;
   }
 
+  /**
+   * 解释 if
+   *
+   * @param {*} ctx
+   * @return {*}
+   * @memberof Visitor
+   */
   visitIfStat(ctx) {
-    const { children } = ctx;
-    const condition = children[2];
-    const stat1 = children[5];
-    const stat2 = children[9];
-    console.log(ctx);
-    children.forEach((cc) => {
-      console.log('ww', cc.getText());
-    });
+    const ifPart = ctx.ifPart();
+    const ifExpr = ifPart.expr();
 
-    // if (this.visitExpr(condition)) {
-    //   return this.visitExpr(stat1);
-    // } else {
-    //   return this.visitExpr(stat2);
-    // }
+    let res;
+    if ((res = this.visitExpr(ifExpr))) {
+      const block = ifPart.block();
+      const expr = block.expr();
+      return this.visitExpr(expr);
+    }
+
+    const elseIfParts = ctx.elseIfPart();
+
+    if (elseIfParts.length) {
+      for (let i = 0; i < elseIfParts.length; i++) {
+        const context = elseIfParts[i];
+        const ifExpr = context.expr();
+        const blockExpr = context.block().expr();
+
+        if ((res = this.visitExpr(ifExpr))) {
+          return this.visitExpr(blockExpr);
+        }
+      }
+    }
+    const elsePart = ctx.elsePart();
+
+    const elseBlockExpr = elsePart.block().expr();
+    return this.visitExpr(elseBlockExpr);
   }
 
+  /**
+   * 函数调用解释
+   *
+   * @param {*} ctx
+   * @return {*}
+   * @memberof Visitor
+   */
   visitFuncCall(ctx) {
-    const { children } = ctx;
-    if (children.length === 4) {
-      const funcName = children[0].getText();
-      const parameters = this.visitParameters(children[2]);
+    const funcName = ctx.ID().getText();
+    const parameters = this.visitParameters(ctx.parameters());
 
-      if (funcName === 'abs') {
-        return Math.abs(parameters[0]);
-      }
-      if (funcName === 'max') {
-        return Math.max(...parameters);
-      }
+    if (funcName === 'abs') {
+      return Math.abs(parameters[0]);
+    }
+    if (funcName === 'max') {
+      return Math.max(...parameters);
+    }
 
-      if (funcName === 'min') {
-        return Math.min(...parameters);
-      }
+    if (funcName === 'min') {
+      return Math.min(...parameters);
+    }
 
-      if (funcName === 'add') {
-        return parameters.reduce((acc, cur) => acc + cur, 0);
-      }
+    if (funcName === 'add') {
+      return parameters.reduce((acc, cur) => acc + cur, 0);
     }
   }
 
+  /**
+   * 处理参数列表
+   *
+   * @param {*} ctx
+   * @return {*}
+   * @memberof Visitor
+   */
   visitParameters(ctx) {
-    const { children } = ctx;
-    return children
-      .filter(
-        (parameterCtx) => parameterCtx instanceof ExprParser.ParameterContext
-      )
-      .map((ctx) => this.visitParameter(ctx));
-  }
-
-  visitParameter(ctx) {
-    const { children } = ctx;
-    if (children[0] instanceof ExprParser.ExprContext) {
-      return this.visitExpr(children[0]);
-    }
-
-    if (children[0] instanceof ExprParser.FuncCallContext) {
-      return this.visitFuncCall(children[0]);
-    }
+    const parameters = ctx.expr();
+    return parameters.map((ctx) => this.visitExpr(ctx));
   }
 }

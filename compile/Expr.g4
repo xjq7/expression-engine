@@ -1,35 +1,36 @@
 grammar Expr;
 
-prog: stat+ EOF ;
-
-stat: expr         
-    | funcCall  
-    ;
+prog: expr EOF ;
 
 funcCall: ID '(' parameters? ')'
   ;
 
-parameters: parameter (',' parameter)*;
+parameters: expr (',' expr)*;
 
-parameter: expr;
+ifStat: ifPart elseIfPart* elsePart ;
 
-ifStat: 'if' '(' ifCondition ')' '{' expr '}' elseStat*  'else' '{' expr '}';
+ifPart: 'if' '(' expr ')' block;
 
-ifCondition: expr;
+elseIfPart: 'else if' expr block ;
 
-elseStat: 'else if' expr '{' expr '}';
+elsePart: 'else' block ;
 
 expr: '-' expr 
   | '!' expr
+  | funcCall
   | ifStat
-  | expr ('>'|'<'|'>='|'<='|'=='|'!='|'&&'|'||') expr
-  | expr '[' expr ']'
   | expr ('*' | '/') expr
   | expr ('+' | '-') expr
+  | expr ('>'|'<'|'>='|'<='|'=='|'!=') expr
+  | expr ('&&'|'||') expr
+  | expr '[' expr ']'
   | '(' expr ')'
-  | funcCall
   | ID
   | INT
+  ;
+
+block: '{' expr '}'
+  | '{' '}'
   ;
 
 ID: [a-zA-Z] ([a-zA-Z] | [0-9])* ;

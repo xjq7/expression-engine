@@ -12,12 +12,6 @@ export default class ExprVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by ExprParser#stat.
-	visitStat(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
 	// Visit a parse tree produced by ExprParser#funcCall.
 	visitFuncCall(ctx) {
 	  return this.visitChildren(ctx);
@@ -30,32 +24,38 @@ export default class ExprVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by ExprParser#parameter.
-	visitParameter(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
 	// Visit a parse tree produced by ExprParser#ifStat.
 	visitIfStat(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
 
-	// Visit a parse tree produced by ExprParser#ifCondition.
-	visitIfCondition(ctx) {
+	// Visit a parse tree produced by ExprParser#ifPart.
+	visitIfPart(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
 
-	// Visit a parse tree produced by ExprParser#elseStat.
-	visitElseStat(ctx) {
+	// Visit a parse tree produced by ExprParser#elseIfPart.
+	visitElseIfPart(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by ExprParser#elsePart.
+	visitElsePart(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
 
 	// Visit a parse tree produced by ExprParser#expr.
 	visitExpr(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by ExprParser#block.
+	visitBlock(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

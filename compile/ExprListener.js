@@ -14,15 +14,6 @@ export default class ExprListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by ExprParser#stat.
-	enterStat(ctx) {
-	}
-
-	// Exit a parse tree produced by ExprParser#stat.
-	exitStat(ctx) {
-	}
-
-
 	// Enter a parse tree produced by ExprParser#funcCall.
 	enterFuncCall(ctx) {
 	}
@@ -41,15 +32,6 @@ export default class ExprListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by ExprParser#parameter.
-	enterParameter(ctx) {
-	}
-
-	// Exit a parse tree produced by ExprParser#parameter.
-	exitParameter(ctx) {
-	}
-
-
 	// Enter a parse tree produced by ExprParser#ifStat.
 	enterIfStat(ctx) {
 	}
@@ -59,21 +41,30 @@ export default class ExprListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by ExprParser#ifCondition.
-	enterIfCondition(ctx) {
+	// Enter a parse tree produced by ExprParser#ifPart.
+	enterIfPart(ctx) {
 	}
 
-	// Exit a parse tree produced by ExprParser#ifCondition.
-	exitIfCondition(ctx) {
+	// Exit a parse tree produced by ExprParser#ifPart.
+	exitIfPart(ctx) {
 	}
 
 
-	// Enter a parse tree produced by ExprParser#elseStat.
-	enterElseStat(ctx) {
+	// Enter a parse tree produced by ExprParser#elseIfPart.
+	enterElseIfPart(ctx) {
 	}
 
-	// Exit a parse tree produced by ExprParser#elseStat.
-	exitElseStat(ctx) {
+	// Exit a parse tree produced by ExprParser#elseIfPart.
+	exitElseIfPart(ctx) {
+	}
+
+
+	// Enter a parse tree produced by ExprParser#elsePart.
+	enterElsePart(ctx) {
+	}
+
+	// Exit a parse tree produced by ExprParser#elsePart.
+	exitElsePart(ctx) {
 	}
 
 
@@ -83,6 +74,15 @@ export default class ExprListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by ExprParser#expr.
 	exitExpr(ctx) {
+	}
+
+
+	// Enter a parse tree produced by ExprParser#block.
+	enterBlock(ctx) {
+	}
+
+	// Exit a parse tree produced by ExprParser#block.
+	exitBlock(ctx) {
 	}
 
 
