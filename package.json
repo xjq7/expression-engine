@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "表达式引擎",
   "main": "index.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.es.js",
+    "default": "./dist/index.es.js"
+  },
   "type": "module",
   "sideEffects": false,
   "scripts": {

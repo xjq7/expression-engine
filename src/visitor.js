@@ -1,8 +1,6 @@
 import ExprParser from '../compile/ExprParser.js';
 import ExprVisitor from '../compile/ExprVisitor.js';
 
-const { ExprContext, FuncCallContext, ParameterContext } = ExprParser;
-
 export default class Visitor extends ExprVisitor {
   constructor() {
     super();
@@ -59,6 +57,9 @@ export default class Visitor extends ExprVisitor {
       if (operator === '*') {
         return lrs * rrs;
       }
+      if (operator === '%') {
+        return lrs % rrs;
+      }
       if (operator === '/') {
         return lrs / rrs;
       }
@@ -99,9 +100,18 @@ export default class Visitor extends ExprVisitor {
       if (operator === '!') {
         return !value;
       }
+    } else if (childCount === 5) {
+      const exprs = ctx.expr();
+      const [condition, statL, statR] = exprs;
+
+      if (this.visitExpr(condition)) {
+        return this.visitExpr(statL);
+      } else {
+        return this.visitExpr(statR);
+      }
     }
 
-    return 0;
+    throw new Error('语法错误');
   }
 
   /**
@@ -161,10 +171,6 @@ export default class Visitor extends ExprVisitor {
 
     if (funcName === 'min') {
       return Math.min(...parameters);
-    }
-
-    if (funcName === 'add') {
-      return parameters.reduce((acc, cur) => acc + cur, 0);
     }
   }
 

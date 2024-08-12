@@ -15,16 +15,16 @@ elseIfPart: 'else if' expr block ;
 
 elsePart: 'else' block ;
 
-expr: '-' expr 
-  | '!' expr
+expr: ('-' | '+' | '!') expr 
   | funcCall
   | ifStat
-  | expr ('*' | '/') expr
+  | expr ('*' | '/' | '%') expr
   | expr ('+' | '-') expr
   | expr ('>'|'<'|'>='|'<='|'=='|'!=') expr
   | expr ('&&'|'||') expr
   | expr '[' expr ']'
   | '(' expr ')'
+  | expr '?' expr ':' expr
   | ID
   | INT
   ;
