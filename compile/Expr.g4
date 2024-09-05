@@ -33,6 +33,9 @@ block: '{' expr '}'
   | '{' '}'
   ;
 
+BOOL: 'true' 
+  | 'false';
+
 ID: [a-zA-Z] ([a-zA-Z] | [0-9])* ;
 
 INT: [0-9]+ ;

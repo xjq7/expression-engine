@@ -87,6 +87,10 @@ export default class Visitor extends ExprVisitor {
         return Number(context.getText());
       }
 
+      if ((context = ctx.BOOL())) {
+        return context === 'true';
+      }
+
       if ((context = ctx.ID())) {
         return context.getText();
       }

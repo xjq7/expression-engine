@@ -19,7 +19,7 @@ public class ExprParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, ID=27, INT=28, WS=29;
+		T__24=25, T__25=26, BOOL=27, ID=28, INT=29, WS=30;
 	public static final int
 		RULE_prog = 0, RULE_funcCall = 1, RULE_parameters = 2, RULE_ifStat = 3, 
 		RULE_ifPart = 4, RULE_elseIfPart = 5, RULE_elsePart = 6, RULE_expr = 7, 
@@ -44,7 +44,7 @@ public class ExprParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "ID", "INT", "WS"
+			null, null, null, "BOOL", "ID", "INT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -159,7 +159,7 @@ public class ExprParser extends Parser {
 			setState(24);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 402654098L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 805307282L) != 0)) {
 				{
 				setState(23);
 				parameters();
@@ -718,7 +718,7 @@ public class ExprParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001dl\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u001el\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001"+
@@ -743,7 +743,7 @@ public class ExprParser extends Parser {
 		"\u0000\u0000\u0000\f7\u0001\u0000\u0000\u0000\u000eE\u0001\u0000\u0000"+
 		"\u0000\u0010i\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u000e\u0007\u0000"+
 		"\u0013\u0014\u0005\u0000\u0000\u0001\u0014\u0001\u0001\u0000\u0000\u0000"+
-		"\u0015\u0016\u0005\u001b\u0000\u0000\u0016\u0018\u0005\u0001\u0000\u0000"+
+		"\u0015\u0016\u0005\u001c\u0000\u0000\u0016\u0018\u0005\u0001\u0000\u0000"+
 		"\u0017\u0019\u0003\u0004\u0002\u0000\u0018\u0017\u0001\u0000\u0000\u0000"+
 		"\u0018\u0019\u0001\u0000\u0000\u0000\u0019\u001a\u0001\u0000\u0000\u0000"+
 		"\u001a\u001b\u0005\u0002\u0000\u0000\u001b\u0003\u0001\u0000\u0000\u0000"+
@@ -762,7 +762,7 @@ public class ExprParser extends Parser {
 		"\u0000\u0000:;\u0006\u0007\uffff\uffff\u0000;<\u0007\u0000\u0000\u0000"+
 		"<F\u0003\u000e\u0007\f=F\u0003\u0002\u0001\u0000>F\u0003\u0006\u0003\u0000"+
 		"?@\u0005\u0001\u0000\u0000@A\u0003\u000e\u0007\u0000AB\u0005\u0002\u0000"+
-		"\u0000BF\u0001\u0000\u0000\u0000CF\u0005\u001b\u0000\u0000DF\u0005\u001c"+
+		"\u0000BF\u0001\u0000\u0000\u0000CF\u0005\u001c\u0000\u0000DF\u0005\u001d"+
 		"\u0000\u0000E:\u0001\u0000\u0000\u0000E=\u0001\u0000\u0000\u0000E>\u0001"+
 		"\u0000\u0000\u0000E?\u0001\u0000\u0000\u0000EC\u0001\u0000\u0000\u0000"+
 		"ED\u0001\u0000\u0000\u0000F`\u0001\u0000\u0000\u0000GH\n\t\u0000\u0000"+

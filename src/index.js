@@ -3,7 +3,7 @@ import ExprLexer from '../compile/ExprLexer.js';
 import ExprParser from '../compile/ExprParser.js';
 import Visitor from './visitor.js';
 
-export function run(input) {
+export function exec(input) {
   // 创建词法分析器和语法分析器
   const input_stream = new antlr4.InputStream(input);
   const lexer = new ExprLexer(input_stream);
